@@ -1,0 +1,12 @@
+{
+  "name": "guidesync-services",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Guidesync Services marketing and lead generation site (Cloudflare Pages).",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs && npx --yes wrangler pages dev dist"
+  },
+  "engines": { "node": ">=18" }
+}
