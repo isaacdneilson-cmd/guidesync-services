@@ -9,7 +9,7 @@ export const site = {
     'Guidesync Services connects high-risk and complex businesses with merchant processing partners. Get a free statement review and a call with a payments specialist.',
   // Cloudflare Turnstile public site key. Replace with your own from the Cloudflare dashboard.
   // The value below is Cloudflare's official always-passes TEST key so the form works in development.
-  turnstileSiteKey: '1x00000000000000000000AA',
+  turnstileSiteKey: '0x4AAAAAAF1LOOoI_M6MHZkv',
   // Google Analytics 4 measurement ID (e.g. 'G-XXXXXXX'). Leave empty to disable.
   ga4Id: '',
   // Google Ads conversion ID + label (e.g. 'AW-123456789/AbC-dEfGhIj'). Leave empty to disable.
