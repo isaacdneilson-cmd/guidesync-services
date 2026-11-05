@@ -23,24 +23,25 @@ keeps the domain, DNS, email routing, and hosting in one place.
    `automation/` end up at the top level of the repo.
 3. Use `main` as the branch.
 
-## 3. Create the Cloudflare Pages project
+## 3. Cloudflare Workers project (already created)
 
-Cloudflare dashboard > **Workers & Pages** > Create > **Pages** > Connect to Git > pick `guidesync-services`.
+The site runs as a Cloudflare **Worker** with static assets. The repo includes `wrangler.jsonc`
+and `worker/index.js`. Build settings (Worker > Settings > Build):
 
 | Setting | Value |
 |---|---|
-| Framework preset | None |
 | Build command | `node build.mjs` |
-| Build output directory | `dist` |
-| Environment variable | `NODE_VERSION` = `20` |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | `/` |
 
-Deploy. You'll get a preview address ending in `.pages.dev`.
-Then go to **Custom domains** and add `guidesync.net` and `www.guidesync.net`.
+If Cloudflare says the project is disconnected from Git, click **Manage** next to the repository
+and reinstall/authorize the Cloudflare GitHub app for `guidesync-services`.
+Custom domain: Worker > Settings > **Domains & Routes** > add `guidesync.net` and `www.guidesync.net`.
 
 ## 4. Turn on the captcha (Cloudflare Turnstile)
 
 1. Cloudflare dashboard > **Turnstile** > Add widget. Name: Guidesync. Hostnames:
-   `guidesync.net`, `www.guidesync.net`, and your `.pages.dev` address. Mode: **Managed**.
+   `guidesync.net`, `www.guidesync.net`, and your `.workers.dev` address. Mode: **Managed**.
 2. Copy the **Site key** into `src/content/site.mjs` → `turnstileSiteKey`
    (replacing the test key), and commit the change on GitHub.
 3. Keep the **Secret key** for step 6.
@@ -61,7 +62,7 @@ plus `status` and `notes` columns for you to track follow-up.
 
 ## 6. Add the secret settings to Cloudflare
 
-Pages project > **Settings > Variables and Secrets** > Production. Add each as type **Secret**:
+Worker > **Settings > Variables and Secrets** (the runtime section, NOT the build variables). Add each as type **Secret**:
 
 | Name | Value |
 |---|---|
@@ -70,7 +71,7 @@ Pages project > **Settings > Variables and Secrets** > Production. Add each as t
 | `SHEETS_SHARED_SECRET` | The same `SHARED_SECRET` you set in Code.gs |
 | `ALLOWED_HOSTS` | `guidesync.net,www.guidesync.net` |
 
-Then **Deployments > Retry deployment** so the settings take effect. Submit a test lead
+Saving them redeploys the Worker automatically. Submit a test lead
 and confirm it appears in the sheet.
 
 ## 7. Email: contact@guidesync.net → your inbox

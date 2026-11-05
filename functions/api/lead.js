@@ -34,7 +34,7 @@ export async function onRequestPost({ request, env }) {
     const allowed = (env.ALLOWED_HOSTS || host).split(',').map((h) => h.trim().toLowerCase());
     let originHost = '';
     try { originHost = new URL(origin).hostname.toLowerCase(); } catch (_) {}
-    const isPreview = originHost.endsWith('.pages.dev');
+    const isPreview = originHost.endsWith('.pages.dev') || originHost.endsWith('.workers.dev');
     if (!originHost || (!allowed.includes(originHost) && !isPreview && originHost !== host)) {
       return json({ ok: false, error: 'Request blocked.' }, 403);
     }
