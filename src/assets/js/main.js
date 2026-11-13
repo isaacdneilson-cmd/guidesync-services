@@ -8,7 +8,7 @@
   var ads = body.getAttribute('data-ads');
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
-  window.gtag = gtag;
+  if (!window.gtag) window.gtag = gtag;
   if (ga || ads) {
     var s = document.createElement('script');
     s.async = true;
@@ -20,6 +20,8 @@
   }
   // Fire conversion on the thank-you page (used as the Google Ads conversion page).
   if (body.classList.contains('thanks')) {
+    // Event for Google Tag Manager triggers (use Custom Event 'lead_submitted' as the Ads conversion trigger).
+    window.dataLayer.push({ event: 'lead_submitted' });
     if (ads) gtag('event', 'conversion', { send_to: ads });
     if (ga) gtag('event', 'generate_lead', { currency: 'USD', value: 1 });
   }

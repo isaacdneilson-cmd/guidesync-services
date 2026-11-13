@@ -181,6 +181,7 @@ ${noindex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robo
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/rss+xml" title="${esc(site.name)} Insights" href="/blog/feed.xml">
+${site.gtmId ? `<script src="/assets/js/tag.js?v=${BUILD_DATE}" data-gtm="${esc(site.gtmId)}"></script>` : ''}
 <link rel="stylesheet" href="/assets/css/styles.css?v=${BUILD_DATE}">
 <script src="/assets/js/main.js?v=${BUILD_DATE}" defer></script>
 ${body.includes('cf-turnstile') ? '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' : ''}

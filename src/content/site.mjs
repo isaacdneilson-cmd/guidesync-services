@@ -10,6 +10,8 @@ export const site = {
   // Cloudflare Turnstile public site key. Replace with your own from the Cloudflare dashboard.
   // The value below is Cloudflare's official always-passes TEST key so the form works in development.
   turnstileSiteKey: '0x4AAAAAAF1LOOoI_M6MHZkv',
+  // Google Tag Manager / Google tag container ID (from Google Ads). Loaded on every page.
+  gtmId: 'GTM-MWGD4832',
   // Google Analytics 4 measurement ID (e.g. 'G-XXXXXXX'). Leave empty to disable.
   ga4Id: '',
   // Google Ads conversion ID + label (e.g. 'AW-123456789/AbC-dEfGhIj'). Leave empty to disable.
