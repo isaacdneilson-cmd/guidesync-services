@@ -236,8 +236,10 @@ const postCard = (p) => `<article class="post-card"><a href="/blog/${p.slug}/"><
           <li class="now"><span class="spin"></span><div><b>Specialist call scheduled</b><span>Custom setup &amp; pricing</span></div></li>
         </ol>
       </div>
-      <div class="glass chip chip-a">${icon('lock')}<span>PCI-focused partners</span></div>
-      <div class="glass chip chip-b">${icon('layers')}<span>Card &amp; ACH rails</span></div>
+      <div class="chip-row">
+        <div class="glass chip">${icon('lock')}<span><b>PCI-focused</b>Vetted partners</span></div>
+        <div class="glass chip">${icon('layers')}<span><b>Card &amp; ACH</b>Two payment rails</span></div>
+      </div>
     </div>
   </div>
 </section>
