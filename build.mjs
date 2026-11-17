@@ -1,6 +1,7 @@
 // Guidesync Services static site generator. Zero dependencies: `node build.mjs` -> ./dist
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { site, industryNavOrder, solutionNavOrder } from './src/content/site.mjs';
 import { industries } from './src/content/industries.mjs';
 import { solutions } from './src/content/solutions.mjs';
@@ -11,6 +12,9 @@ import { esc, parseFrontMatter, renderMarkdown } from './src/lib/markdown.mjs';
 const ROOT = path.dirname(new URL(import.meta.url).pathname);
 const DIST = path.join(ROOT, 'dist');
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
+// Content hashes for cache-busting (assets are served with long-lived immutable caching).
+const assetHash = (rel) => crypto.createHash('sha1').update(fs.readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname), 'src', 'assets', rel))).digest('hex').slice(0, 10);
+const V = { css: assetHash('css/styles.css'), js: assetHash('js/main.js'), tag: assetHash('js/tag.js') };
 const YEAR = new Date().getFullYear();
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -181,9 +185,9 @@ ${noindex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robo
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/rss+xml" title="${esc(site.name)} Insights" href="/blog/feed.xml">
-${site.gtmId ? `<script src="/assets/js/tag.js?v=${BUILD_DATE}" data-gtm="${esc(site.gtmId)}"></script>` : ''}
-<link rel="stylesheet" href="/assets/css/styles.css?v=${BUILD_DATE}">
-<script src="/assets/js/main.js?v=${BUILD_DATE}" defer></script>
+${site.gtmId ? `<script src="/assets/js/tag.js?v=${V.tag}" data-gtm="${esc(site.gtmId)}"></script>` : ''}
+<link rel="stylesheet" href="/assets/css/styles.css?v=${V.css}">
+<script src="/assets/js/main.js?v=${V.js}" defer></script>
 ${body.includes('cf-turnstile') ? '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' : ''}
 ${ld}
 </head>
