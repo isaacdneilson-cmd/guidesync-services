@@ -15,7 +15,8 @@ export const site = {
   // Google Analytics 4 measurement ID (e.g. 'G-XXXXXXX'). Leave empty to disable.
   ga4Id: '',
   // Google Ads conversion ID + label (e.g. 'AW-123456789/AbC-dEfGhIj'). Leave empty to disable.
-  adsConversion: '',
+  // "Submit lead form" conversion action in the Guidesync Google Ads account (647-036-4072).
+  adsConversion: 'AW-18571992805/6O9eCJL6prcdEOW96JdF',
   disclosure:
     'Guidesync Services connects businesses with processing partners. Guidesync is not a bank, acquirer, or payment processor. All applications are subject to underwriting and approval by our processing partners and their sponsor banks.',
 };
