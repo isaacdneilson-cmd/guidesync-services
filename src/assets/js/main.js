@@ -19,11 +19,17 @@
     if (ads) gtag('config', ads.split('/')[0]);
   }
   // Fire conversion on the thank-you page (used as the Google Ads conversion page).
+  // Only counts when the visitor arrived here from a successful form submission,
+  // so refreshes, bookmarks and direct visits to /thank-you/ are not counted as leads.
   if (body.classList.contains('thanks')) {
-    // Event for Google Tag Manager triggers (use Custom Event 'lead_submitted' as the Ads conversion trigger).
-    window.dataLayer.push({ event: 'lead_submitted' });
-    if (ads) gtag('event', 'conversion', { send_to: ads });
-    if (ga) gtag('event', 'generate_lead', { currency: 'USD', value: 1 });
+    var leadId = null, storageOk = true;
+    try { leadId = sessionStorage.getItem('gs_lead'); sessionStorage.removeItem('gs_lead'); } catch (e) { storageOk = false; }
+    if (leadId || !storageOk) {
+      // Event for Google Tag Manager triggers (use Custom Event 'lead_submitted' as the Ads conversion trigger).
+      window.dataLayer.push({ event: 'lead_submitted' });
+      if (ads) gtag('event', 'conversion', { send_to: ads, value: 1.0, currency: 'USD', transaction_id: leadId || undefined });
+      if (ga) gtag('event', 'generate_lead', { currency: 'USD', value: 1 });
+    }
   }
 
   // ---------- Capture ad/UTM parameters for lead attribution ----------
@@ -152,6 +158,7 @@
           if (res.j && res.j.ok) {
             status.className = 'form-status ok';
             status.textContent = 'Thank you! Redirecting…';
+            try { sessionStorage.setItem('gs_lead', 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)); } catch (x) {}
             location.href = '/thank-you/';
           } else {
             throw new Error((res.j && res.j.error) || 'Something went wrong.');
